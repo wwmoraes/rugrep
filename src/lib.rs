@@ -85,18 +85,20 @@ pub fn run(options: Options) -> Result<(), Box<dyn Error>> {
 /// search("needle", "hay\nneedle\nhay\nNeedle\n", false);
 /// ```
 pub fn search<'a>(query: &str, content: &'a str, insensitive: bool) -> Vec<(usize, &'a str)> {
-    let query: String = match insensitive {
-        true => query.to_lowercase(),
-        false => query.to_owned(),
+    let query: String = if insensitive {
+        query.to_lowercase()
+    } else {
+        query.to_owned()
     };
 
-    let matcher: Box<Fn(&(usize, &str)) -> bool> = match insensitive {
-        true => Box::new(|(_, line): &(usize, &str)| -> bool {
+    let matcher: Box<Fn(&(usize, &str)) -> bool> = if insensitive {
+        Box::new(|(_, line): &(usize, &str)| -> bool {
             line.to_lowercase().contains(&query)
-        }),
-        false => Box::new(|(_, line): &(usize, &str)| -> bool {
+        })
+    } else {
+        Box::new(|(_, line): &(usize, &str)| -> bool {
             line.contains(&query)
-        }),
+        })
     };
 
     content.lines().enumerate().filter(&matcher).map(|(index, line)| (index+1, line)).collect()
@@ -111,7 +113,7 @@ impl Options {
         let mut arg_items = Vec::new();
 
         for arg in args {
-            if arg.starts_with("-") {
+            if arg.starts_with('-') {
                 arg_flags.push(arg);
             } else {
                 arg_items.push(arg);
