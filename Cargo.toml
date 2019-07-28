@@ -1,0 +1,20 @@
+[package]
+name = "rugrep"
+version = "0.1.0"
+authors = ["William Moraes <williamwmoraes@gmail.com>"]
+edition = "2018"
+description = "provides grep-like utilities with higher performance and lower footprint"
+license = "MIT"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[profile.release]
+lto = true
+opt-level = 'z'
+codegen-units = 1
+
+[dependencies]
+
+[dev-dependencies]
+assert_cmd = "0.11.1"
+predicates = "1"
