@@ -1,0 +1,8 @@
+# target path of all builds, tests and performance checks
+target
+
+# backup files
+**/*.rs.bk
+
+# Editor
+.vscode
