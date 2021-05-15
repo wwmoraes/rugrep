@@ -15,6 +15,14 @@ endif
 PROFILE_DIR := target/$(TARGET)/profile
 EXECUTABLE := target/$(TARGET)/$(BIN_NAME)
 
+.PHONY: image
+image:
+	docker build -t wwmoraes/rugrep .
+
+.PHONY: image-sh
+image-sh:
+	docker run --rm -it wwmoraes/rugrep rugrep /etc/group /etc/passwd
+
 .PHONY: gh-release
 gh-release: $(BIN_NAME).tar.gz
 
